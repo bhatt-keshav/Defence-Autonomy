@@ -1,0 +1,183 @@
+{UTF-8}
+American Dependence on Defence Manufacturing  = A FUNCTION OF( Defence Spending,Parochialness\
+		)
+	~	
+	~		|
+
+Defence Spending  = A FUNCTION OF( )
+	~	
+	~		|
+
+Energy costs  = A FUNCTION OF( Geopolitical tensions)
+	~	
+	~		|
+
+FCF  = A FUNCTION OF( NOPAT)
+	~	
+	~		|
+
+FCF yield  = A FUNCTION OF( FCF,"Market Cap.")
+	~	
+	~		|
+
+Geopolitical tensions  = A FUNCTION OF( )
+	~	
+	~		|
+
+Inefficiency  = A FUNCTION OF( )
+	~	
+	~		|
+
+Interesedness  = A FUNCTION OF( ROIC)
+	~	
+	~		|
+
+Margins  = A FUNCTION OF( Energy costs,Metals Cost,"State Aid (Joint procurement and Subsidies)"\
+		)
+	~	
+	~		|
+
+"Market Cap."  = A FUNCTION OF( Interesedness)
+	~	
+	~		|
+
+Metals Cost  = A FUNCTION OF( Geopolitical tensions)
+	~	
+	~		|
+
+NOPAT  = A FUNCTION OF( Inefficiency,Margins,Sales,"Tax-Breaks")
+	~	
+	~		|
+
+Parochialness  = A FUNCTION OF( )
+	~	
+	~		|
+
+Private Capital Investment  = A FUNCTION OF( Interesedness)
+	~	
+	~		|
+
+ROIC  = A FUNCTION OF( NOPAT)
+	~	
+	~		|
+
+Sales  = A FUNCTION OF( Defence Spending,Scaling up)
+	~	
+	~		|
+
+Scaling up  = A FUNCTION OF( Private Capital Investment) ~~|
+Scaling up=
+	~	
+	~		|
+
+"State Aid (Joint procurement and Subsidies)"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"Tax-Breaks"  = A FUNCTION OF( Parochialness)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,82,2
+10,1,Scaling up,948,644,54,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,2,Sales,802,539,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,3,NOPAT,764,424,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,4,ROIC,872,286,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,5,Interesedness,1142,382,54,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,6,Private Capital Investment,1129,558,55,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,7,1,2,1,0,43,0,0,192,0,-1--1--1,,1|(857,616)|
+1,8,2,3,1,0,43,0,0,192,0,-1--1--1,,1|(769,497)|
+1,9,3,4,1,0,43,0,0,192,0,-1--1--1,,1|(777,341)|
+1,10,4,5,1,0,43,0,0,192,0,-1--1--1,,1|(1031,286)|
+1,11,5,6,1,0,43,0,0,192,0,-1--1--1,,1|(1164,472)|
+1,12,6,1,1,0,0,0,0,192,0,-1--1--1,,1|(1050,626)|
+10,13,Defence Spending,573,582,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,14,13,2,0,0,43,0,0,192,0,-1--1--1,,1|(0,0)|
+10,15,Parochialness,330,561,53,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,16,American Dependence on Defence Manufacturing,1078,797,83,36,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,17,Inefficiency,555,433,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,18,Margins,737,246,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,19,Metals Cost,891,114,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,20,Geopolitical tensions,1050,31,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,20,19,0,0,43,0,0,192,0,-1--1--1,,1|(0,0)|
+1,22,19,18,0,0,45,0,0,192,0,-1--1--1,,1|(0,0)|
+1,23,17,3,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,24,Energy costs,1028,166,48,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,25,20,24,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,26,18,3,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,27,"State Aid (Joint procurement and Subsidies)",470,118,65,36,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,28,27,18,0,0,43,0,0,192,0,-1--1--1,,1|(0,0)|
+10,29,"Tax-Breaks",425,287,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,30,29,3,1,0,0,0,0,192,0,-1--1--1,,1|(650,356)|
+1,31,15,29,1,0,0,0,0,192,0,-1--1--1,,1|(340,408)|
+1,32,15,16,1,0,0,0,0,192,0,-1--1--1,,1|(449,681)|
+1,33,24,18,0,0,45,0,0,192,0,-1--1--1,,1|(0,0)|
+10,34,FCF,1185,221,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,35,3,34,1,0,0,0,0,192,0,-1--1--1,,1|(1029,262)|
+10,36,FCF yield,1430,283,46,26,8,3,0,2,-1,1,0,0,0-0-0,0-0-0,|||255-0-0,0,0,0,0,0,0
+10,37,"Market Cap.",1303,416,47,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,38,5,37,1,0,43,0,0,192,0,-1--1--1,,1|(1210,430)|
+1,39,34,36,1,0,0,0,0,192,0,-1--1--1,,1|(1309,223)|
+1,40,37,36,1,0,45,0,0,192,0,-1--1--1,,1|(1395,369)|
+1,41,13,16,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+///---\\\
+:L<%^E!@
+5:American Dependence on Defence Manufacturing
+19:82,0
+24:0
+25:0
+26:0
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
