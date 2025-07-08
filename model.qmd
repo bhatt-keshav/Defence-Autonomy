@@ -27,7 +27,7 @@ defence_spending_data = [
     (9,44.33), (10,44.33), (11,44.33), (12,44.33),
     (13,45), (14,45), (15,45), (16,45),
     (17,45.67), (18,45.67), (19,45.67), (20,45.67),
-    (21,46.36), (22,46.36), (23,46.36), (24,46.36)
+    (21,46.36), (22,46.36), (23,46.36), (24,46.36), (25,46.36)
 ]
 
 ## assume delivery rate is 3.45% 
@@ -37,7 +37,7 @@ delivery_rate_data = [
 (9, 0.03988), (10, 0.04036), (11, 0.04085), (12, 0.04135),
 (13, 0.04185), (14, 0.04236), (15, 0.04287), (16, 0.04339),
 (17, 0.04391), (18, 0.04444), (19, 0.04498), (20, 0.04552),
-(21, 0.04607), (22, 0.04662), (23, 0.04718), (24, 0.04775)
+(21, 0.04607), (22, 0.04662), (23, 0.04718), (24, 0.04775), (25, 0.04775)
 ]
 
 
@@ -52,6 +52,7 @@ working_capital_ratio = 1.5
 # Modelling the order backlog
 The order backlog is filled with new orders and drained by orders fulfilled = revenue
 
+Define the values and types
 ```{python}
 order_backlog = model.stock("order_backlog")
 revenue = model.flow('revenue')
