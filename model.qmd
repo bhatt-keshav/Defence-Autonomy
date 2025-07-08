@@ -1,0 +1,107 @@
+---
+title: "Model"
+format:
+  html:
+    code-fold: false
+jupyter: python3
+---
+
+Import libraries
+```{python}
+from BPTK_Py import Model
+from BPTK_Py import sd_functions as sd
+```
+
+Model Setup
+
+```{python}
+model = Model(starttime=1.0,stoptime=25.0,dt=1,name='DefenceSpendingModel')
+```
+
+
+# Constants
+```{python}
+defence_spending_data = [
+    (1,43.03), (2,43.03), (3,43.03), (4,43.03), 
+    (5,43.68), (6,43.68), (7,43.68), (8,43.68),
+    (9,44.33), (10,44.33), (11,44.33), (12,44.33),
+    (13,45), (14,45), (15,45), (16,45),
+    (17,45.67), (18,45.67), (19,45.67), (20,45.67),
+    (21,46.36), (22,46.36), (23,46.36), (24,46.36)
+]
+
+## assume delivery rate is 3.45% 
+delivery_rate_data = [
+(1, 0.0362), (2, 0.03664), (3, 0.0371), (4, 0.03755),
+(5, 0.0380), (6, 0.03846), (7, 0.03893), (8, 0.0394),
+(9, 0.03988), (10, 0.04036), (11, 0.04085), (12, 0.04135),
+(13, 0.04185), (14, 0.04236), (15, 0.04287), (16, 0.04339),
+(17, 0.04391), (18, 0.04444), (19, 0.04498), (20, 0.04552),
+(21, 0.04607), (22, 0.04662), (23, 0.04718), (24, 0.04775)
+]
+
+
+# Share of the big three companies is 30% of all equipment spending
+share_big_three = 0.3
+
+# Taking 
+working_capital_ratio = 1.5
+```
+
+
+# Modelling the order backlog
+The order backlog is filled with new orders and drained by orders fulfilled = revenue
+
+```{python}
+order_backlog = model.stock("order_backlog")
+revenue = model.flow('revenue')
+new_orders = model.flow('new_orders')
+
+# New Orders part
+# External variable influencing new orders
+defence_spending = model.converter('defence_spending')
+model.points['defence_spending'] = defence_spending_data
+
+new_orders.equation = defence_spending * share_big_three * order_backlog
+
+# Revenue part
+# Delivery rate is non linearly growing with 5% annual growth
+delivery_rate = model.converter('delivery_rate')
+model.points['delivery_rate'] = delivery_rate_data
+
+revenue.equation = delivery_rate * order_backlog
+```
+
+```{python}
+order_backlog.initial_value = 12.72 #2024 value
+order_backlog.equation = new_orders - revenue
+```
+
+```{python}
+#| label: order backlog
+#| fig-cap: "Order backlog stock"
+#| 
+order_backlog.plot()
+```
+
+<!-- fixme: operating expenses -->
+Operating Profit = Revenue - Operating Expenses
+
+```{python}
+current_operating_profit = model.converter('current_operating_profit')
+# fixme: should not be 10 but operating expenses
+current_operating_profit.equation = revenue - 10
+```
+
+```{python}
+#| label: Operating Profit
+#| fig-cap: "Operating Profit"
+#| 
+current_operating_profit.plot()
+```
+
+Change in Working Capital = Order Backlog × Working Capital Ratio
+```{python}
+change_in_working_capital = model.converter('change_in_working_capital')
+change_in_working_capital.equation = order_backlog * working_capital_ratio
+```
