@@ -375,11 +375,11 @@ def geopolitical_shock_probability():
     comp_subtype="Normal",
     depends_on={
         "rate_of_orders_fulfilled": 1,
-        "critical_metals_lookup": 1,
-        "energy_costs_lookup": 1,
         "shock_to_feedstock": 1,
-        "fixed_costs": 1,
+        "critical_metals_lookup": 1,
         "structural_metals_lookup": 1,
+        "energy_costs_lookup": 1,
+        "fixed_costs": 1,
     },
 )
 def rate_of_expenses():
