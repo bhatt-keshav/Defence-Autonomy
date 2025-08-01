@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from pysd.py_backend.functions import if_then_else
-from pysd.py_backend.statefuls import Integ, Delay
+from pysd.py_backend.statefuls import Delay, Integ
 from pysd.py_backend.lookups import HardcodedLookups
 from pysd import Component
 
@@ -375,11 +375,11 @@ def geopolitical_shock_probability():
     comp_subtype="Normal",
     depends_on={
         "rate_of_orders_fulfilled": 1,
-        "shock_to_feedstock": 1,
-        "energy_costs_lookup": 1,
-        "critical_metals_lookup": 1,
         "fixed_costs": 1,
         "structural_metals_lookup": 1,
+        "critical_metals_lookup": 1,
+        "energy_costs_lookup": 1,
+        "shock_to_feedstock": 1,
     },
 )
 def rate_of_expenses():
