@@ -1,0 +1,306 @@
+{UTF-8}
+Constrained Defence Spending=willingness to spend lookup * defence spending rate / stress to willingness
+	~	billionEuro
+	~		|
+
+critical metals lookup=critical metals rate(Time)
+	~	Dmnl
+	~		|
+
+critical metals rate([(1,0)-(24,0.2)], (1,0.06), (2,0.07968), (3,0.083787), (4,0.082347\
+		), (5,0.12), (6,0.12), (7,0.12), 
+	(8,0.12), (9,0.12), (12,0.092373), (16,0.100053), (20,0.1056), (24,0.1), (25,0.1))
+	~	Dmnl
+	~		|
+
+Order Backlog= INTEG (rate of new orders-rate of orders fulfilled,
+		63)
+	~	billionEuro
+	~		|
+
+Cumulative Earnings= INTEG ((rate of orders fulfilled-rate of expenses) * (1-tax rate\
+		),
+		2)
+	~	billionEuro
+	~		|
+
+energy rate((1,0.08), (2,0.084446), (3,0.085477), (4,0.097252), (5,0.102741), (6,0.087448\
+		), (7,0.092568), (8,0.100637), 
+	(9,0.102526), (10,0.086366), (11,0.090696), (12,0.095644), (16,0.085999), (20,0.08947\
+		), (24,0.087719), (25,0.087719))
+	~	Dmnl
+	~		|
+
+rate of orders fulfilled=DELAY1 ((delivery lookup * Order Backlog), delay in delivery
+	    )
+	~	billionEuro
+	~		|
+
+shock to feedstock=IF THEN ELSE(
+	    RANDOM UNIFORM(0, 1, 42) < geopolitical shock probability,
+	 RANDOM UNIFORM(1.3, 3, 42),
+	1
+	)
+	~	Dmnl
+	~	seed is 42
+	|
+
+stress to willingness=1
+	~	Dmnl [1,3,0.5]
+	~		|
+
+structural metals lookup=structural metals rate(Time)
+	~	Dmnl
+	~		|
+
+energy costs lookup=energy rate(Time)
+	~	Dmnl
+	~		|
+
+geopolitical shock probability=0.1
+	~	Dmnl [0.1,1,0.2]
+	~	10% chance per quarter of a geopolitical shock
+	|
+
+rate of expenses=rate of orders fulfilled*
+	(
+		((
+		critical metals lookup+
+		energy costs lookup+
+		structural metals lookup
+		) * shock to feedstock) + 
+	 fixed costs
+	)
+	~	billionEuro
+	~		|
+
+structural metals rate([(1,0)-(24,0.2)], (1,0.12), (4,0.1276), (8,0.1352), (12,0.1382\
+		), (16,0.1446), (20,0.1488), (24,0.153
+	), (25,0.153))
+	~	Dmnl
+	~		|
+
+willingness to spend lookup = WITH LOOKUP (Cumulative Defence Spending,
+		([(0,0)-(1200,1)],(0,1), (200,0.9), (400,0.85), (600,0.8), (800,0.75), (1000,0.7)))
+	~	Dmnl
+	~		|
+
+Cumulative Defence Spending= INTEG (defence spending rate,
+		0)
+	~	billionEuro
+	~		|
+
+Defence Spending = WITH LOOKUP (Time,
+		([(1,40)-(24,50)],(1,43.03), (2,43.03), (3,43.03), (4,43.03), (5,43.68), (6,43.68),\
+		 (7,43.68), (8,43.68), (9,44.33), (
+		10,44.33), (11,44.33
+		), (12,44.33), (13,45), (14,45), (15,45), (16,45), (17,45.67), (18,45.67), (19,45.67\
+		), (20,45.67), (21,46.36), (22,46.36
+		), (23,46.36), (24,46.36)))
+	~	billionEuro
+	~		|
+
+defence spending rate=Defence Spending
+	~	billionEuro
+	~		|
+
+delay in delivery=1
+	~	Dmnl [1,20,0.25]
+	~		|
+
+delivery lookup=delivery rate(Time)
+	~	Dmnl
+	~		|
+
+tax rate=0.3
+	~	Dmnl
+	~		|
+
+fixed costs=0.57
+	~	Dmnl [0.3,0.57,0.2]
+	~	these are inflation dependent and with a 2% inflation can be assumed \
+		constant
+	|
+
+rate of new orders=Constrained Defence Spending * market share
+	~	billionEuro
+	~		|
+
+market share=0.15
+	~	Dmnl
+	~	Rheinmettal's market share
+	|
+
+delivery rate((1, 0.04), (2, 0.04), (3, 0.04), (4, 0.04),
+	(5, 0.042), (6, 0.042), (7, 0.042), (8, 0.042),
+	(9, 0.0441), (10, 0.0441), (11, 0.0441), (12, 0.0441),
+	(13, 0.0463), (14, 0.0463), (15, 0.0463), (16, 0.0463),
+	(17, 0.0486), (18, 0.0486), (19, 0.0486), (20, 0.0486),
+	(21, 0.051), (22, 0.051), (23, 0.051), (24, 0.051)
+	)
+	~	Dmnl
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 24
+	~	Quarter
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 1
+	~	Quarter
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Quarter [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.25
+	~	Quarter [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,70,2
+10,1,Order Backlog,982,556,46,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,2,Defence Spending,523,436,66,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,3,delivery rate,937,845,48,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,4,Time,498,576,31,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|||128-128-128,0,0,0,0,0,0
+1,5,4,2,1,0,0,0,0,192,0,-1--1--1,,1|(491,508)|
+12,6,48,703,550,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,7,9,6,100,0,0,22,0,192,0,-1--1--1,,1|(766,550)|
+1,8,9,1,4,0,0,22,0,192,0,-1--1--1,,1|(883,550)|
+11,9,0,824,550,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,10,rate of new orders,824,584,46,26,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,11,market share,722,688,51,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,12,11,10,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,13,delivery lookup,934,741,57,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,14,3,13,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,15,4,13,5,0,0,0,0,192,0,-1--1--1,,3|(594,729)|(655,786)|(739,838)|
+10,16,critical metals rate,1461,1090,53,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,17,energy rate,1612,1097,48,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,18,fixed costs,1715,661,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,19,structural metals rate,1330,1098,64,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,20,structural metals lookup,1332,885,64,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,19,20,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,22,critical metals lookup,1463,886,53,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,23,energy costs lookup,1614,883,48,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,24,16,22,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,25,17,23,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,26,tax rate,1474,430,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,27,delay in delivery,1215,697,61,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,28,4,23,1,0,0,0,0,192,0,-1--1--1,,1|(959,978)|
+1,29,4,22,1,0,0,0,0,192,0,-1--1--1,,1|(915,941)|
+1,30,4,20,1,0,0,0,0,192,0,-1--1--1,,1|(983,934)|
+12,31,0,2005,-6,300,200,0,15,0,0,2,0,0,0,0,0,0,0,0,0
+Cumulative Earnings,Graph
+10,32,Cumulative Defence Spending,731,225,74,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,33,48,463,230,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,34,36,33,100,0,0,22,0,192,0,-1--1--1,,1|(518,230)|
+1,35,36,32,4,0,0,22,0,192,0,-1--1--1,,1|(616,230)|
+11,36,0,569,230,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,37,defence spending rate,569,264,53,26,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,38,2,36,1,0,0,0,0,192,0,-1--1--1,,1|(531,349)|
+10,39,willingness to spend lookup,950,225,62,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,40,Constrained Defence Spending,991,346,77,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,41,32,39,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,42,39,40,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,43,40,9,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,44,37,40,1,0,0,0,0,192,0,-1--1--1,,1|(800,350)|
+10,45,stress to willingness,1128,267,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,46,45,40,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,47,geopolitical shock probability,1897,795,66,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,48,shock to feedstock,1687,794,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,49,47,48,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,50,Cumulative Earnings,1359,570,46,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,51,53,1,100,0,0,22,0,192,0,-1--1--1,,1|(1096,563)|
+1,52,53,50,4,0,0,22,0,192,0,-1--1--1,,1|(1244,563)|
+11,53,0,1170,563,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,54,rate of orders fulfilled,1170,597,52,26,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,55,27,53,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,56,13,53,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,57,26,50,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+12,58,48,1687,570,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,59,61,50,100,0,0,22,0,192,0,-1--1--1,,1|(1470,570)|
+1,60,61,58,4,0,0,22,0,192,0,-1--1--1,,1|(1612,570)|
+11,61,0,1541,570,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,62,rate of expenses,1541,604,62,26,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,63,20,61,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,64,22,61,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,65,23,61,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,66,18,61,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,67,1,53,1,0,0,0,0,192,0,-1--1--1,,1|(1094,492)|
+1,68,53,61,1,0,0,0,0,192,0,-1--1--1,,1|(1322,470)|
+1,69,48,61,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+12,70,0,716,-222,61,47,8,79,0,0,0,0,0,0,0,0,0,0,0,0
+stress to willingness,0,3,0.5
+12,71,0,709,-97,59,45,8,79,0,0,0,0,0,0,0,0,0,0,0,0
+delay in delivery,0,20,0.5
+12,72,0,702,26,67,43,8,79,0,0,0,0,0,0,0,0,0,0,0,0
+geopolitical shock probability,0,1,0.2
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 2
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,100,2
+///---\\\
+:GRAPH Cumulative_Earnings
+:TITLE Cumulative_Earnings
+:SCALE
+:VAR Cumulative Earnings
+:DATASET 
+:LINE-WIDTH 1
+
+:GRAPH Cumulative_vs._Constrained_Defence_Spending
+:TITLE Defence Spending
+:SCALE
+:VAR Cumulative Defence Spending
+:DATASET 
+:LINE-WIDTH 1
+:SCALE
+:VAR Constrained Defence Spending
+:DATASET 
+:LINE-WIDTH 1
+:L<%^E!@
+1:wip.vdfx
+1:test.vdfx
+4:Time
+5:structural metals rate
+9:wip
+19:70,0
+24:1
+25:24
+26:24
+23:0
+15:0,0,0,1,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
